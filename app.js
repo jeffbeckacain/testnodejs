@@ -9,8 +9,8 @@ var pool    =    mysql.createPool({
      // connectionLimit   :   100,
       host              :   'localhost',
       user              :   'root',
-      password          :   'yashayami271815',
-      database          :   'testing'
+      password          :   'CD271815',
+      database          :   'test'
      // debug             :   false
 });
 
