@@ -53,6 +53,6 @@ var add_status = function (status,callback) {
     });
 }
 
-http.listen(3000,function(){
-    console.log("Listening on 3000");
+http.listen(10,function(){
+    console.log("Listening on 10");
 });
