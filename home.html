@@ -1,9 +1,9 @@
 <html ng-app="home">
   <head>
     <script src="http://52.32.172.158:8000/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" href="http://52.32.172.158/nodechat/assets/plugins/bootstrap/css/bootstrap.min.css">
-    <link href="http://52.32.172.158/nodechat/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://52.32.172.158/nodechat/assets/plugins/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://52.32.172.158/testnodejs/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link href="http://52.32.172.158/testnodejs/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://52.32.172.158/testnodejs/assets/plugins/fontawesome/css/font-awesome.min.css">
   </head>
   <body ng-controller="home_controller">
   	
@@ -66,7 +66,7 @@
 						<span>Your Chats</span>
 						<div class="fried_list">
 							<div class="list_show col-md-12 " ng-click="select_contact(list.id,list.name);" to-id="{{ list.id }}" ng-repeat="list in names">
-		        			    <img src="http://52.32.172.158/nodechat/{{list.p_photo}}" class="img-circle profile-photo" />
+		        			    <img src="http://52.32.172.158/testnodejs/{{list.p_photo}}" class="img-circle profile-photo" />
 				                <span>&nbsp;{{ list.name }}</span>
 				            </div>
 		        	    </div>
@@ -108,7 +108,7 @@
 
 								}" 
 							>
-							<img src="http://52.32.172.158/nodechat/{{list.p_photo}}"
+							<img src="http://52.32.172.158/testnodejs/{{list.p_photo}}"
 									ng-style="{
 											'height':list.id == selected_shadow ? '26%' : '100%',	
 											'width':list.id == selected_shadow ? '9%' : '13%'	
@@ -161,10 +161,10 @@
 		</div>
 	</div>
 </body>
-  <script src = "http://52.32.172.158/nodechat/js/jquery.min.js"></script>
-  <script src = "http://52.32.172.158/nodechat/js/bootstrap.min.js"></script>
-  <script src = "http://52.32.172.158/nodechat/js/angular.min.js"></script>
-  <script src = "http://52.32.172.158/nodechat/js/angular-route.js"></script>
-  <script src = "http://52.32.172.158/nodechat/js/scrollglue.js"></script>
-  <script src = "http://52.32.172.158/nodechat/js/home_script.js"></script>  
+  <script src = "http://52.32.172.158/testnodejs/js/jquery.min.js"></script>
+  <script src = "http://52.32.172.158/testnodejs/js/bootstrap.min.js"></script>
+  <script src = "http://52.32.172.158/testnodejs/js/angular.min.js"></script>
+  <script src = "http://52.32.172.158/testnodejs/js/angular-route.js"></script>
+  <script src = "http://52.32.172.158/testnodejs/js/scrollglue.js"></script>
+  <script src = "http://52.32.172.158/testnodejs/js/home_script.js"></script>  
 </html>
