@@ -1,0 +1,170 @@
+<html ng-app="home">
+  <head>
+    <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="http://localhost/nodechat/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link href="http://localhost/nodechat/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://localhost/nodechat/assets/plugins/css/font-awesome.min.css">
+  </head>
+  <body ng-controller="home_controller">
+  	
+	<!--- These hidden fields are used for conditions and Welcome message ---->
+	<div class="hidden_data">
+  		<input type="hidden" ng-model="name" id="name" value="{{$name}}"/>
+		<input type="hidden" ng-model="from_id" id="from_id" value="{{$from_id}}" />
+		<input type="hidden" ng-model="to_id" id="to_id" value="1" />
+  	</div>
+	
+    <div class="container main_con">
+		
+		<!--- Header Part ---->
+		<div class="rows welcome_user col-md-12 clearfix">
+			<div class="col-md-9 pull-left welcome_msg">Welcome {{name_deocde}}</div>
+			<div class="  pull-right icons"><a href="/logout" >Logout</a></div>
+			<div class="  pull-left icons"><a  data-toggle="modal" data-target="#myModal" class="add_new_chat" ng-click="send_friend_request();" >Select Friends</a></div>
+		</div>
+		<div class="rows">
+			<!--- Body Part ---->
+			<div class="col-md-8 main_msg_con">
+				<div class="panel">
+					<div class="panel-body chatBox">
+						
+						<div class="col-md-12 ng-hide" ng-hide="chat_label_hide_show">
+							<div class="col-md-12 chat_label">Chat with {{  name_to_deocde }}</div>
+					    </div>
+						
+						<div class="conversations msg_show" scroll-glue>
+							<div class="col-md-12 msgs" ng-repeat="conversation_list in con_list">
+					   		    <div ng-style="{
+					   			        'float': to_id==conversation_list.to_id ? 'right' :'left'
+					   			    }">
+					   			    <div class="msg_style_came_msg" >
+					   			           {{ conversation_list.msg }}
+					   			    </div>
+					   			    
+					   		    </div>
+				   		    </div>
+						</div>
+					    
+					    <div class="rows">
+					    	<div class="col-md-12  main_msg_type_box_con">
+								<div class="col-md-10 msg_type_box">
+									<div class="form-group">
+										<textarea class="form-control" placeholder="Type ypur message here.." id="big_msg_box"></textarea>
+									</div>
+								</div>
+								<button class="btn col-md-2 send_arrow send_btn" ng-click="send_msg();" style="padding:16px; 10px">SEND</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!--- Side bar or nav bar ---->
+			<div class="col-md-4 sidebar">
+				<div class="panel">
+					<div class="panel-body listing">
+						<span>Your Chats</span>
+						<div class="fried_list">
+							<div class="list_show col-md-12 " ng-click="select_contact(list.id,list.name);" to-id="{{ list.id }}" ng-repeat="list in names">
+		        			    <img src="http://localhost/nodechat/{{list.p_photo}}" class="img-circle profile-photo" />
+				                <span>&nbsp;{{ list.name }}</span>
+				            </div>
+		        	    </div>
+		        	    <div ng-show="names.length == 0"  >
+						        <div class="alert alert-info" >
+							        <p class="text-center" >
+								        No chats found.  
+							        </p >
+						        </div >
+					    </div >
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="myModal" class="modal fade" role="dialog" >
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title"> Start new Chat</h4>
+			  </div>
+			  <div class="modal-body">
+				<div class="panel new_chat_list">
+					<div class="col-md-12" ng-repeat="list in con_new_list">
+						<div class="list_show_new" 
+								ng-mouseleave="animate_hover_modal(list.id)" ng-mouseenter="animate_hover_leave_modal(list.id)" 
+								to-id="{{ list.id }}"
+								ng-style="{
+									'box-shadow': list.id == selected_shadow ? '0px 0px 75px -8px rgba(0,0,0,0.75)' : '',
+									'-moz-transform':list.id == selected_shadow ? 'scale(1.1)' : '',
+									'-webkit-transform':list.id == selected_shadow ? 'scale(1.1)' : '',
+									'transform':list.id == selected_shadow ? 'scale(1.1)' : '',
+									'z-index':list.id == selected_shadow ? '100' : '',
+									'position':list.id == selected_shadow ? 'relative' : '',
+									'background-color': list.id == selectedIndex ? '#14282F' : '#fff',
+									'height': list.id == selected_shadow ? '35%' : '15%'
+
+								}" 
+							>
+							<img src="http://localhost/nodechat/{{list.p_photo}}"
+									ng-style="{
+											'height':list.id == selected_shadow ? '26%' : '100%',	
+											'width':list.id == selected_shadow ? '9%' : '13%'	
+										}" 
+									class="img-circle profile-photo-modal" />
+							<span>&nbsp;{{ list.name }}</span>
+							<button  class="btn btn-success send_msg_new_con" id="send_msg_new_con_{{list.id}}"
+								ng-style="{
+								   'background-color': list.id == selectedIndex ? '#fff' : '',
+								   'color':list.id == selectedIndex ? '#14282F' : '',
+								   'font-size':list.id == selected_shadow ? '10px' : ''	
+								}"
+								ng-click="show_msg_box_modal(list.id)"
+							>{{ list.id==selected_shadow ? "X" :"Send Message" }}</button>
+							<br/>
+							<div class="col-md-12" style="display:nones"
+									ng-style="{
+										'display': list.id == selected_shadow ? 'block' : 'none'
+								}">
+								<textarea class="form-control" id="new_chat_{{ list.id }}"
+											ng-style="{
+											   'color':list.id == selectedIndex ? '#14282F' : '',
+											   'font-size':list.id == selected_shadow ? '10px' : ''	
+											}"
+											placeholder="Type your Messege here"
+											ng-model="msg"
+								></textarea>
+								<button  class="btn btn-success" 
+											ng-click="send_msg_new(list.id,list.name)" 
+											ng-style="{
+											   'background-color': list.id == selectedIndex ? '#fff' : '',
+											   'color':list.id == selectedIndex ? '#14282F' : '',
+											   'font-size':list.id == selected_shadow ? '10px' : ''	
+											}"
+											data-dismiss="modal"
+								>Send Messege</button> 
+							</div>
+						</div>   
+					</div>
+					<div ng-show="con_new_list.length == 0"  >
+						<div class="alert alert-info" >
+							<p class="text-center" >
+								Sorry, Right now we don't have any new contacts for you.  
+							</p >
+						</div >
+					</div >
+				</div>
+			  </div>
+			</div>
+		</div>
+	</div>
+</body>
+  <script src = "http://localhost/nodechat/js/jquery.min.js"></script>
+  <script src = "http://localhost/nodechat/js/bootstrap.min.js"></script>
+  <script src = "http://localhost/nodechat/js/angular.min.js"></script>
+  <script src = "http://localhost/nodechat/js/angular-route.js"></script>
+  <script src = "http://localhost/nodechat/js/scrollglue.js"></script>
+  <script src = "http://localhost/nodechat/js/home_script.js"></script>  
+</html>

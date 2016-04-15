@@ -1,36 +1,68 @@
-<html>
+<html ng-app="login">
   <head>
-    <title>Socket.io</title>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script>
-    $(document).ready(function(){
-          var socket = io();
-          $("#add_status").click(function(){
-            socket.emit('status added',$("#comment").val());
-          });
-          socket.on('refresh feed',function(msg){
-            $("#show_comments").append(msg + '<br /><br />');
-          });
-    });
-    </script>
+    <link rel="stylesheet" href="http://localhost/nodechat/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link href="http://localhost/nodechat/css/style.css" rel="stylesheet" >
   </head>
-  <body>
-    <div id="comment_box" style = "padding:5%;">
-      <textarea id="comment" rows="5" cols="70"></textarea><br /><br />
-      <input type="button" id="add_status" value="Add Status">
-    </div>
-      <div
-        id    = "show_comments"
-        class = "jumbotron"
-        style = "width: 38%;
-                 height: 100%;
-                 padding: 2%;
-                 margin-left:5%;
-                 margin-top:-53px;"
-      >
+  <body ng-controller="login-register">
+    <div class="container">
+      <br/>
+      <br/>
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#login">Login</a></li>
+        <li><a data-toggle="tab" href="#register">Register</a></li>
+      </ul>
+
+      <div class="tab-content">
+        
+        <div id="login" class="tab-pane fade in active">
+          <div class="login-reg-con col-md-12 "  id="menu1" style="padding:20px;">
+            <div id="name-group" class="form-group">
+              <label>Name</label>
+              <input type="text" name="name" class="form-control" placeholder="Eg. Shanky" ng-model="name">
+            </div>
+            <div class="form-group" >
+              <label>Password</label>
+              <input type="Password" name="Password" class="form-control" placeholder="Password" ng-model="Password"/>
+            </div>
+            <div class="alert alert-danger ng-hide"  ng-hide="show_login_error" style="text-align:center;">
+              <strong>Wrong username Password!</strong>
+            </div>
+            <button class="login_btn btn btn-lg btn-block" ng-click="Login_Form()">Login</button>
+          </div>
+        </div>
+
+        <div id="register" class="tab-pane fade">
+           
+            <form id="reg_from">
+              <div class="col-md-12">
+                
+                <div id="name-group" class="form-group" >
+                  <label>Name</label>
+                  <input type="text" name="name" class="form-control" placeholder="Enter your Nick Name Eg. Shanky" ng-model="name" ng-blur='check_name()'>
+                  <div class="alert alert-danger ng-hide"  ng-hide="show_name_error" style="text-align:center;"> This <strong>Name</strong> is alreary taken</div>
+                </div>
+                <div id="Password" class="form-group">
+                  <label>Password</label>
+                  <input type="Password" name="password" class="form-control" placeholder="Enter Password" ng-model="Password">
+                </div>
+
+              </div>              
+              <div class="col-md-12">
+                <!-- SUBMIT BUTTON -->
+                <div class="button-group">
+                  <br/>
+                  <input type="submit" class="reg_btn btn btn-lg btn-block" value="Submit" ng-click="processForm()"/>
+                </div>  
+             </div>
+
+            </form>
+
+        </div>
       </div>
-  </body>
+    </div>
+</body>
+  <script src = "http://localhost/nodechat/js/jquery.min.js"></script>
+  <script src = "http://localhost/nodechat/js/bootstrap.min.js"></script>
+  <script src = "http://localhost/nodechat/js/angular.min.js"></script>
+  <script src = "http://localhost/nodechat/js/script.js"></script>
 </html>
