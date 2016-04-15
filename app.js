@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 /* Creating MySQL connection.*/
 var con    =    mysql.createConnection({
       //connectionLimit   :   100,
-      host              :   '52.32.172.158',
+      host              :   'localhost',
       user              :   'root',
       password          :   'CD271815',
       database          :   'chat',
